@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ketech.mapper.FactoryMapper">
+  <resultMap id="BaseResultMap" type="com.ketech.po.Factory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="factory_id" jdbcType="VARCHAR" property="factoryId" />
+    <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
+    <result column="factory_charger" jdbcType="VARCHAR" property="factoryCharger" />
+    <result column="charger_phone" jdbcType="VARCHAR" property="chargerPhone" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+</mapper>
