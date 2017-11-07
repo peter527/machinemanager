@@ -6,9 +6,9 @@ import com.ketech.mapper.MachineMapper;
 import com.ketech.po.Machine;
 import com.ketech.tdo.MessageResultBean;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Map;
 @Service
 public class MachineService {
 
-    @Autowired
+    @Resource
     private MachineMapper machineMapper;
 
     public static final int SUCCESS_CODE = 200;
