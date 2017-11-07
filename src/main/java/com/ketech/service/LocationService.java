@@ -1,8 +1,16 @@
 package com.ketech.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.ketech.mapper.LocationMapper;
+import com.ketech.mapper.LocationStaffProjectMapper;
 import com.ketech.po.Location;
+import com.ketech.vo.LocationInfoBean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,23 +25,22 @@ import java.util.Map;
 @Service
 public class LocationService {
 
+    @Resource
+    private LocationMapper locationMapper;
+    @Resource
+    private LocationStaffProjectMapper locationInfoMapper;
 
     public Map<String, Object>ListLocationInfo(int start, int length, Location location){
-        Location location1 = new Location();
-        System.out.println("Here");
-        /*if (StringUtils.isNotBlank(name)){
-            project.setProjectName(name);
-        }
         PageHelper.offsetPage(start, length);
-        List<Project> projectList = projectMapper.select(project);
-        PageInfo pageInfo = new PageInfo(projectList);
+        List<LocationInfoBean> locationInfoList = locationInfoMapper.selectProjectInfoByProject(location);
+        PageInfo pageInfo = new PageInfo(locationInfoList);
         Map<String, Object> maps = new HashMap<String, Object>();
         // 总记录数
         maps.put("recordsTotal", pageInfo.getTotal());
         // 过滤后的总记录数
         maps.put("recordsFiltered", pageInfo.getTotal());
         // 分页列表
-        maps.put("data", projectList);*/
-        return null;
+        maps.put("data", locationInfoList);
+        return maps;
     }
 }

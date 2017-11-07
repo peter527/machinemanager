@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ketech.mapper.LocationStaffProjectMapper">
+    <resultMap id="BaseResultMap" type="com.ketech.vo.LocationInfoBean" extends="com.ketech.mapper.LocationMapper.BaseResultMap">
+        <association property="staff" resultMap="com.ketech.mapper.StaffMapper.BaseResultMap"/>
+        <association property="project" resultMap="com.ketech.mapper.ProjectMapper.BaseResultMap"/>
+    </resultMap>
+    
+    <select id="selectProjectInfoByProject" resultMap="BaseResultMap">
+        SELECT
+            l.location_id,
+            l.location_name,
+            l.location_charger_name,
+            l.location_charger_phone,
+            l.staff_id,
+            l.project_id,
+            s.staff_name,
+            s.staff_phone,
+            p.project_name
+        FROM
+            location l
+        INNER JOIN staff s ON l.staff_id = s.staff_id
+        INNER JOIN project p ON l.project_id = p.project_id
+    </select>
+</mapper>
