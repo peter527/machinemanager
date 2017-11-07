@@ -18,6 +18,9 @@ public class Project implements Serializable {
     @Column(name = "app_latest_version")
     private String appLatestVersion;
 
+    @Column(name = "staff_id")
+    private String staffId;
+
     private String status;
 
     @Column(name = "create_date")
@@ -82,6 +85,20 @@ public class Project implements Serializable {
      */
     public void setAppLatestVersion(String appLatestVersion) {
         this.appLatestVersion = appLatestVersion == null ? null : appLatestVersion.trim();
+    }
+
+    /**
+     * @return staff_id
+     */
+    public String getStaffId() {
+        return staffId;
+    }
+
+    /**
+     * @param staffId
+     */
+    public void setStaffId(String staffId) {
+        this.staffId = staffId == null ? null : staffId.trim();
     }
 
     /**

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ketech.mapper.ProjectStaffMapper">
+    <resultMap id="BaseResultMap" extends="com.ketech.mapper.ProjectMapper.BaseResultMap" type="com.ketech.vo.ProjectStaffBean">
+        <association property="staff" javaType="com.ketech.po.Staff" resultMap="com.ketech.mapper.StaffMapper.BaseResultMap" />
+    </resultMap>
+
+    <select id="selectProjectAndStaffByProject" resultMap="BaseResultMap">
+        SELECT
+            p.project_id,
+            p.project_name,
+            p.app_name,
+            p.app_latest_version,
+            p.status,
+            p.staff_id,
+            s.staff_name,
+            s.staff_phone
+        FROM
+            project p
+            INNER JOIN staff s ON p.staff_id = s.staff_id
+    </select>
+
+</mapper>

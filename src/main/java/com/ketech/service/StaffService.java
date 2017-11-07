@@ -9,7 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @package: com.ketech.service <br/>
@@ -50,6 +53,19 @@ public class StaffService {
         // 过滤后的总记录数
         maps.put("recordsFiltered", pageInfo.getTotal());
         // 分页列表
+        maps.put("data", staffList);
+        return maps;
+    }
+
+    /**
+     *
+     * @param staff
+     * @return
+     */
+    public Map<String, Object> listAllStaff(Staff staff){
+        List<Staff> staffList = staffMapper.select(staff);
+        Map<String, Object> maps = new HashMap<String, Object>();
+        maps.put("code", SUCCESS_CODE);
         maps.put("data", staffList);
         return maps;
     }

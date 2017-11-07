@@ -109,25 +109,27 @@
     <div class="modal-body">
         <form class="form-horizontal form" role="form">
             <div class="form-group">
-                <label for="machineId" class="col-sm-2 control-label">厂商编号：</label>
+                <label for="machineId" class="col-sm-2 control-label">设备编号：</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="machineId" placeholder="请输入设备编号..." maxlength="4" value="{{machineId}}">
-                    <span class="col-sm help-block">人员编号请遵循【F010】这种格式,F开头加3位数字</span>
+                    <span class="col-sm help-block">设备编号请遵循【M010】这种格式,M开头加3位数字</span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="machineName" class="col-sm-2 control-label">厂商名称：</label>
+                <label for="machineName" class="col-sm-2 control-label">设备名称：</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="machineName" placeholder="请输入设备名称..." value="{{machineName}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="factoryId" class="col-sm-2 control-label">设备厂商：</label>
-                <select class="form-control" id="factoryId" >
-                    {{#each factoryList}}
+                <div class="col-sm-10">
+                    <select class="form-control" name="factoryId" id="factoryId" >
+                        {{#each factoryList}}
                         <option value="{{factoryId}}">{{factoryName}}</option>
-                    {{/each}}
-                </select>
+                        {{/each}}
+                    </select>
+                </div>
             </div>
         </form>
     </div>

@@ -9,6 +9,7 @@
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="app_name" jdbcType="VARCHAR" property="appName" />
     <result column="app_latest_version" jdbcType="VARCHAR" property="appLatestVersion" />
+    <result column="staff_id" jdbcType="VARCHAR" property="staffId" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />

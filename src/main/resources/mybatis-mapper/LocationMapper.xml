@@ -7,10 +7,11 @@
     -->
     <id column="location_id" jdbcType="VARCHAR" property="locationId" />
     <result column="location_name" jdbcType="VARCHAR" property="locationName" />
-    <result column="location_address" jdbcType="VARCHAR" property="locationAddress" />
+    <result column="location_type" jdbcType="VARCHAR" property="locationType" />
     <result column="location_charger_name" jdbcType="VARCHAR" property="locationChargerName" />
     <result column="location_charger_phone" jdbcType="VARCHAR" property="locationChargerPhone" />
-    <result column="company_staff_id" jdbcType="VARCHAR" property="companyStaffId" />
+    <result column="staff_id" jdbcType="VARCHAR" property="staffId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />

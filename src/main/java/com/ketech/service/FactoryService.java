@@ -58,6 +58,19 @@ public class FactoryService {
     }
 
     /**
+     *
+     * @param factory
+     * @return
+     */
+    public Map<String, Object> listAllFactory(Factory factory){
+        List<Factory> factoryList = factoryMapper.select(factory);
+        Map<String, Object> maps = new HashMap<String, Object>();
+        maps.put("code", SUCCESS_CODE);
+        maps.put("data", factoryList);
+        return maps;
+    }
+
+    /**
      * 根据参数搜索厂商信息
      * @param factory 厂商实体类
      * @return 返回查询结果集合

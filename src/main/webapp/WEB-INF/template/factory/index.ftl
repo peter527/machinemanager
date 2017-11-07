@@ -111,7 +111,7 @@
                 <label for="factoryId" class="col-sm-2 control-label">厂商编号：</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="factoryId" placeholder="请输入厂商编号..." maxlength="4" value="{{factoryId}}">
-                    <span class="col-sm help-block">人员编号请遵循【F010】这种格式,F开头加3位数字</span>
+                    <span class="col-sm help-block">厂商编号请遵循【F010】这种格式,F开头加3位数字</span>
                 </div>
             </div>
             <div class="form-group">

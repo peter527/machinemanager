@@ -1,5 +1,6 @@
 package com.ketech.controller;
 
+import com.ketech.po.Factory;
 import com.ketech.service.FactoryService;
 import com.ketech.tdo.MessageResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public class FactoryController {
     public Map<String, Object> listFactory(@RequestParam(required = false, defaultValue = "0") int start,
                                          @RequestParam(required = false, defaultValue = "10") int length, String name) {
         return factoryService.listFactory(start, length, name);
+    }
+
+    @RequestMapping(value = "/listAllFactory")
+    @ResponseBody
+    public Map<String, Object> listAllFactory(Factory factory){
+        return factoryService.listAllFactory(factory);
     }
 
     @RequestMapping(value = "/saveFactory")

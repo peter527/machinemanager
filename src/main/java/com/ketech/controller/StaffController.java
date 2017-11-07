@@ -1,5 +1,6 @@
 package com.ketech.controller;
 
+import com.ketech.po.Staff;
 import com.ketech.service.StaffService;
 import com.ketech.tdo.MessageResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public class StaffController {
     public Map<String, Object> listStaff(@RequestParam(required = false, defaultValue = "0") int start,
                                          @RequestParam(required = false, defaultValue = "10") int length, String name) {
         return staffService.listStaff(start, length, name);
+    }
+
+    @RequestMapping(value = "/listAllStaff")
+    @ResponseBody
+    public Map<String, Object> listAllStaff(Staff staff){
+        return staffService.listAllStaff(staff);
     }
 
     @RequestMapping(value = "/saveStaff")

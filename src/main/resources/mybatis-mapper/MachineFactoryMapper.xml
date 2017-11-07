@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ketech.mapper.MachineMapper">
-  <resultMap id="BaseResultMap2" type="com.ketech.po.Machine">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="machine_id" jdbcType="VARCHAR" property="machineId" />
-    <result column="machine_name" jdbcType="VARCHAR" property="machineName" />
-    <result column="factory_id" jdbcType="VARCHAR" property="factoryId" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-  </resultMap>
+<mapper namespace="com.ketech.mapper.MachineFactoryMapper">
+    <resultMap id="BaseResultMap" extends="com.ketech.mapper.MachineMapper.BaseResultMap" type="com.ketech.vo.MachineFactoryBean">
+        <association property="factory" javaType="com.ketech.po.Factory" resultMap="com.ketech.mapper.FactoryMapper.BaseResultMap"/>
+    </resultMap>
+
+    <select id="selectMachineAndFactoryByMachine" parameterType="com.ketech.po.Machine" resultMap="BaseResultMap">
+        SELECT
+            m.machine_id,
+            m.machine_name,
+            m.factory_id,
+            m.status,
+            f.factory_name,
+            f.factory_charger,
+            f.charger_phone
+        FROM
+            machine m
+            INNER JOIN factory f ON m.factory_id = f.factory_id
+    </select>
+
 </mapper>

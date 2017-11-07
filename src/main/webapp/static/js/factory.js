@@ -189,7 +189,7 @@ $(function () {
             submitHandler: function (form) {
                 $.post(base_url + "/factory/saveFactory", $("#factory-modal .form").serialize()+"&operationType=" + operationType, function (data, status) {
                     var result = data;
-                    if (data.code === "200") {
+                    if (data.code === 200) {
                         $('#factory-modal').modal('hide');
                         layer.open({
                             title: '系统提示',

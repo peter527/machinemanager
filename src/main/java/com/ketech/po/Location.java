@@ -12,8 +12,8 @@ public class Location implements Serializable {
     @Column(name = "location_name")
     private String locationName;
 
-    @Column(name = "location_address")
-    private String locationAddress;
+    @Column(name = "location_type")
+    private String locationType;
 
     @Column(name = "location_charger_name")
     private String locationChargerName;
@@ -21,8 +21,11 @@ public class Location implements Serializable {
     @Column(name = "location_charger_phone")
     private String locationChargerPhone;
 
-    @Column(name = "company_staff_id")
-    private String companyStaffId;
+    @Column(name = "staff_id")
+    private String staffId;
+
+    @Column(name = "project_id")
+    private String projectId;
 
     private String status;
 
@@ -63,17 +66,17 @@ public class Location implements Serializable {
     }
 
     /**
-     * @return location_address
+     * @return location_type
      */
-    public String getLocationAddress() {
-        return locationAddress;
+    public String getLocationType() {
+        return locationType;
     }
 
     /**
-     * @param locationAddress
+     * @param locationType
      */
-    public void setLocationAddress(String locationAddress) {
-        this.locationAddress = locationAddress == null ? null : locationAddress.trim();
+    public void setLocationType(String locationType) {
+        this.locationType = locationType == null ? null : locationType.trim();
     }
 
     /**
@@ -105,17 +108,31 @@ public class Location implements Serializable {
     }
 
     /**
-     * @return company_staff_id
+     * @return staff_id
      */
-    public String getCompanyStaffId() {
-        return companyStaffId;
+    public String getStaffId() {
+        return staffId;
     }
 
     /**
-     * @param companyStaffId
+     * @param staffId
      */
-    public void setCompanyStaffId(String companyStaffId) {
-        this.companyStaffId = companyStaffId == null ? null : companyStaffId.trim();
+    public void setStaffId(String staffId) {
+        this.staffId = staffId == null ? null : staffId.trim();
+    }
+
+    /**
+     * @return project_id
+     */
+    public String getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * @param projectId
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     /**

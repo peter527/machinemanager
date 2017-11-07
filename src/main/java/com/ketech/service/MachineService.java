@@ -2,9 +2,11 @@ package com.ketech.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ketech.mapper.MachineFactoryMapper;
 import com.ketech.mapper.MachineMapper;
 import com.ketech.po.Machine;
 import com.ketech.tdo.MessageResultBean;
+import com.ketech.vo.MachineFactoryBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,8 @@ public class MachineService {
 
     @Resource
     private MachineMapper machineMapper;
+    @Resource
+    private MachineFactoryMapper machineFactoryMapper;
 
     public static final int SUCCESS_CODE = 200;
     public static final int FAIL_CODE = 500;
@@ -54,6 +58,32 @@ public class MachineService {
         maps.put("recordsFiltered", pageInfo.getTotal());
         // 分页列表
         maps.put("data", machineList);
+        return maps;
+    }
+
+
+    /**
+     * 分页查询设备以及厂商信息
+     * @param start 开始的条数
+     * @param length 查询的条数
+     * @param name 设备名称参数
+     * @return 返回带分页信息的查询结果
+     */
+    public Map<String, Object> listMachineFactoryInfo(int start, int length, String name){
+        Machine machine = new Machine();
+        if (StringUtils.isNotBlank(name)){
+            machine.setMachineName(name);
+        }
+        PageHelper.offsetPage(start, length);
+        List<MachineFactoryBean> machineFactoryList = machineFactoryMapper.selectMachineAndFactoryByMachine(machine);
+        PageInfo pageInfo = new PageInfo(machineFactoryList);
+        Map<String, Object> maps = new HashMap<String, Object>();
+        // 总记录数
+        maps.put("recordsTotal", pageInfo.getTotal());
+        // 过滤后的总记录数
+        maps.put("recordsFiltered", pageInfo.getTotal());
+        // 分页列表
+        maps.put("data", machineFactoryList);
         return maps;
     }
 

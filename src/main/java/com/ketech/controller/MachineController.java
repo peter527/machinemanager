@@ -36,9 +36,9 @@ public class MachineController {
 
     @RequestMapping(value = "/listMachine")
     @ResponseBody
-    public Map<String, Object> listFactory(@RequestParam(required = false, defaultValue = "0") int start,
+    public Map<String, Object> listMachineFactoryInfo(@RequestParam(required = false, defaultValue = "0") int start,
                                            @RequestParam(required = false, defaultValue = "10") int length, String name) {
-        return machineService.listMachine(start, length, name);
+        return machineService.listMachineFactoryInfo(start, length, name);
     }
 
     @RequestMapping(value = "/saveMachine")
