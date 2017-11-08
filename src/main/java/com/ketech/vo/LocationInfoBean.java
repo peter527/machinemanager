@@ -1,9 +1,10 @@
 package com.ketech.vo;
 
+import com.ketech.po.Location;
 import com.ketech.po.Project;
 import com.ketech.po.Staff;
 
-public class LocationInfoBean extends Project {
+public class LocationInfoBean extends Location {
 
     private Staff staff;
     private Project project;

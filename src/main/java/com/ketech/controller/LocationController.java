@@ -2,6 +2,7 @@ package com.ketech.controller;
 
 import com.ketech.po.Location;
 import com.ketech.service.LocationService;
+import com.ketech.tdo.MessageResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,4 +42,15 @@ public class LocationController {
         return locationService.ListLocationInfo(start, length, location);
     }
 
+    @RequestMapping(value = "/listLocationByLocation")
+    @ResponseBody
+    public Map<String, Object> listLocationByLocation(Location location){
+        return locationService.listLocationByLocation(location);
+    }
+
+    @RequestMapping(value = "/saveLocation")
+    @ResponseBody
+    public MessageResultBean saveLocation(Location location, String operationType) {
+        return locationService.saveLocation(location, operationType);
+    }
 }

@@ -26,19 +26,21 @@
             //"scrollX": true,	// X轴滚动条，取消自适应
             "columns": [
                 {
-                    "data": 'projectId',
+                    "data": 'locationId',
                     "class": 'text-center',
                     "width": 60
                 }, {
-                    "data": 'projectName'
+                    "data": 'locationName'
                 }, {
-                    "data": 'appName'
+                    "data": 'locationChargerName'
                 }, {
-                    "data": 'appLatestVersion'
+                    "data": 'locationChargerPhone'
                 }, {
                     "data": 'staff.staffName'
                 }, {
                     "data": 'staff.staffPhone'
+                }, {
+                    "data": 'project.projectName'
                 }, {
                     "data": 'status',
                     "render": function (data) {
@@ -93,16 +95,17 @@
          */
         $('#location_list tbody').on('click', 'button', function () {
             var data = locationTable.api().row($(this).parents('tr')).data();
-            if (data.projectId) {
+            if (data.locationId) {
                 if ($(this).hasClass('edit')) {
-                    var context = {"title": "编辑厂商", "operationType": "1"};
+                    var context = {"title": "编辑项目点", "operationType": "1"};
                     context = $.extend(context, data);
                     var staff = {};
                     staff["staffStatus"] = "0";
-                    $.post(base_url + "/staff/listAllStaff", staff, function (data, status) {
+                    staff["status"] = "0";
+                    $.post(base_url + "/staff/listStaffAndProject", staff, function (data, status) {
                         $('#machine-modal').modal('hide');
-                        context = $.extend(context,{"staffList": data.data});
-                        showProjectModal(context);
+                        context = $.extend(context,{"staffList": data.staffList, "projectList": data.projectList});
+                        showLocationModal(context);
                     }, "json");
                 }
                 if ($(this).hasClass('quit')) {
@@ -123,13 +126,14 @@
          * 新增按钮事件，弹出模态框
          */
         $('#addLocationBtn').on('click', function () {
-            var context = {"title": "新增厂商", "operationType": "0"};
+            var context = {"title": "新增项目点", "operationType": "0"};
             var staff = {};
             staff["staffStatus"] = "0";
-            $.post(base_url + "/staff/listAllStaff", staff, function (data, status) {
+            staff["status"] = "0";
+            $.post(base_url + "/staff/listStaffAndProject", staff, function (data, status) {
                 $('#machine-modal').modal('hide');
-                context = $.extend(context,{"staffList": data.data});
-                showProjectModal(context);
+                context = $.extend(context,{"staffList": data.staffList, "projectList": data.projectList});
+                showLocationModal(context);
             }, "json");
         });
 
@@ -151,56 +155,66 @@
          * 员工模态框弹出方法
          * @param context 用于填充表单的信息
          */
-        function showProjectModal(context) {
-            var source = $("#project-template").html();
+        function showLocationModal(context) {
+            var source = $("#location-template").html();
             var template = Handlebars.compile(source);
             var html = template(context);
-            $("#project-modal .modal-content").html(html);
+            $("#location-modal .modal-content").html(html);
             var operationType = context.operationType;
             var staffId = context.staffId;
+            var projectId = context.projectId;
             console.log(context);
             if (operationType === "1") {
-                $('input[name = "projectId"]').attr("readonly", "readonly");
+                $('input[name = "locationId"]').attr("readonly", "readonly");
                 if (staffId){
                     $("#staffId").val(staffId);
                 }
+                if (projectId){
+                    $("#projectId").val(projectId);
+                }
             }
-            var addModalValidate = $("#project-modal .form").validate({
+            var addModalValidate = $("#location-modal .form").validate({
                 errorElement: 'span',
                 errorClass: 'help-block',
                 focusInvalid: true,
                 rules: {
-                    projectId2: {
+                    locationId: {
                         required: true
                     },
-                    projectName: {
+                    locationName: {
                         required: true
                     },
-                    appName: {
+                    locationChargerName: {
                         required: true
                     },
-                    appLatestVersion: {
+                    locationChargerPhone: {
                         required: true
                     },
                     staffId: {
+                        required: true
+                    },
+                    projectId: {
                         required: true
                     }
                 },
                 messages: {
-                    projectId2: {
-                        required: "项目编号不能为空"
+                    locationId: {
+                        required: "项目点编号不能为空"
                     },
-                    projectName: {
-                        required: "项目名称不能为空"
+                    locationName: {
+                        required: "项目点名称不能为空"
                     },
-                    appName: {
-                        required: "app名称不能为空"
+                    locationChargerName: {
+                        required: "对方负责人不能为空"
                     },
-                    appLatestVersion: {
-                        required: "app最新版本不能为空"
+                    locationChargerPhone: {
+                        required: "对方负责人联系方式不能为空"
                     },
                     staffId: {
                         required: "负责人不能为空"
+                    },
+                    projectId: {
+                        required: "项目名称不能为空"
                     }
                 },
                 highlight: function (element) {
@@ -214,9 +228,13 @@
                     element.parent('div').append(error);
                 },
                 submitHandler: function (form) {
-                    $.post(base_url + "/project/saveProject", $("#project-modal .form").serialize() + "&operationType=" + operationType, function (data, status) {
+                    var locationData = $("#location-modal .form").serializeJSON();
+                    locationData["operationType"] = operationType;
+                    locationData["locationType"] = "2";
+                    console.log(locationData);
+                    $.post(base_url + "/location/saveLocation", locationData, function (data, status) {
                         if (data.code === 200) {
-                            $('#project-modal').modal('hide');
+                            $('#location-modal').modal('hide');
                             layer.open({
                                 title: '系统提示',
                                 content: data.msg,
@@ -235,10 +253,10 @@
                     }, "json");
                 }
             });
-            $('#project-modal').data('bs.modal',null);
-            $('#project-modal').modal({backdrop: 'static', keyboard: false}).modal('show');
-            $('#saveProjectBtn').on('click', function () {
-                $("#project-modal .form").submit();
+            $('#location-modal').data('bs.modal',null);
+            $('#location-modal').modal({backdrop: 'static', keyboard: false}).modal('show');
+            $('#saveLocationBtn').on('click', function () {
+                $("#location-modal .form").submit();
             });
         }
     });

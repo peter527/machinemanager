@@ -47,7 +47,8 @@
 <script src="${request.contextPath}/static/plugins/pace/pace.min.js"></script>
 <#-- jquery cookie -->
 <script src="${request.contextPath}/static/plugins/jquery/jquery.cookie.js"></script>
-
+<#-- jquery serializejson -->
+<script src="${request.contextPath}/static/plugins/jquery/jquery.serializejson.min.js"></script>
 <#-- layer -->
 <script src="${request.contextPath}/static/plugins/layer/layer.js"></script>
 

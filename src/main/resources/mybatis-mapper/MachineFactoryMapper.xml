@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ketech.mapper.MachineFactoryMapper">
     <resultMap id="BaseResultMap" extends="com.ketech.mapper.MachineMapper.BaseResultMap" type="com.ketech.vo.MachineFactoryBean">
-        <association property="factory" javaType="com.ketech.po.Factory" resultMap="com.ketech.mapper.FactoryMapper.BaseResultMap"/>
+        <association property="location" javaType="com.ketech.po.Location" resultMap="com.ketech.mapper.LocationMapper.BaseResultMap"/>
     </resultMap>
 
     <select id="selectMachineAndFactoryByMachine" parameterType="com.ketech.po.Machine" resultMap="BaseResultMap">
@@ -11,12 +11,12 @@
             m.machine_name,
             m.factory_id,
             m.status,
-            f.factory_name,
-            f.factory_charger,
-            f.charger_phone
+            l.location_name,
+            l.location_charger_name,
+            l.location_charger_phone
         FROM
             machine m
-            INNER JOIN factory f ON m.factory_id = f.factory_id
+        lEFT JOIN location l ON m.factory_id = l.location_id
     </select>
 
 </mapper>

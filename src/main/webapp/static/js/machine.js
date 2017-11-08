@@ -32,11 +32,11 @@
                 }, {
                     "data": 'machineName'
                 }, {
-                    "data": 'factory.factoryName'
+                    "data": 'location.locationName'
                 }, {
-                    "data": 'factory.factoryCharger'
+                    "data": 'location.locationChargerName'
                 }, {
-                    "data": 'factory.chargerPhone'
+                    "data": 'location.locationChargerPhone'
                 }, {
                     "data": 'status',
                     "render": function (data) {
@@ -93,13 +93,14 @@
             var data = machineTable.api().row($(this).parents('tr')).data();
             if (data.factoryId) {
                 if ($(this).hasClass('edit')) {
-                    var context = {"title": "编辑厂商", "operationType": "1"};
+                    var context = {"title": "编辑设备", "operationType": "1"};
                     context = $.extend(context, data);
-                    var factory = {};
-                    factory["status"] = "0";
-                    $.post(base_url + "/factory/listAllFactory", factory, function (data, status) {
+                    var location = {};
+                    location["status"] = "0";
+                    location["locationType"] = "1";
+                    $.post(base_url + "/location/listLocationByLocation", location, function (data, status) {
                         $('#machine-modal').modal('hide');
-                        context = $.extend(context,{"factoryList": data.data});
+                        context = $.extend(context,{"locationList": data.data});
                         showMachineModal(context);
                     }, "json");
                 }
@@ -121,12 +122,13 @@
          * 新增按钮事件，弹出模态框
          */
         $('#addMachineBtn').on('click', function () {
-            var context = {"title": "新增厂商", "operationType": "0"};
-            var factory = {};
-            factory["status"] = "0";
-            $.post(base_url + "/factory/listAllFactory", factory, function (data, status) {
+            var context = {"title": "新增设备", "operationType": "0"};
+            var location = {};
+            location["status"] = "0";
+            location["locationType"] = "1";
+            $.post(base_url + "/location/listLocationByLocation", location, function (data, status) {
                 $('#machine-modal').modal('hide');
-                context = $.extend(context,{"factoryList": data.data});
+                context = $.extend(context,{"locationList": data.data});
                 showMachineModal(context);
             }, "json");
         });

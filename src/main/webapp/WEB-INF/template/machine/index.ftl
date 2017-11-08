@@ -116,17 +116,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="machineName" class="col-sm-2 control-label">设备名称：</label>
+                <label for="machineName" class="col-sm-2 control-label">设备型号：</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="machineName" placeholder="请输入设备名称..." value="{{machineName}}">
+                    <input type="text" class="form-control" name="machineName" placeholder="请输入设备型号..." value="{{machineName}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="factoryId" class="col-sm-2 control-label">设备厂商：</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="factoryId" id="factoryId" >
-                        {{#each factoryList}}
-                        <option value="{{factoryId}}">{{factoryName}}</option>
+                        {{#each locationList}}
+                        <option value="{{locationId}}">{{locationName}}</option>
                         {{/each}}
                     </select>
                 </div>

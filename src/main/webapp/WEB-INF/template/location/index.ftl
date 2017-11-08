@@ -75,6 +75,7 @@
                                     <th>公司负责人</th>
                                     <th>联系方式</th>
                                     <th>项目名称</th>
+                                    <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -93,7 +94,7 @@
 </div>
 
 <#--模态框模板-->
-<div class="modal fade" id="project-modal" role="dialog" aria-labelledby="project-modal" aria-hidden="true">
+<div class="modal fade" id="location-modal" role="dialog" aria-labelledby="project-modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         </div>
@@ -101,7 +102,7 @@
 </div>
 
 <#--模态框弹出内容模板-->
-<script id="project-template" type="text/x-handlebars-template">
+<script id="location-template" type="text/x-handlebars-template">
     <div class="modal-header">
         <h4 class="modal-title">
             {{title}}
@@ -110,33 +111,33 @@
     <div class="modal-body">
         <form class="form-horizontal form" role="form">
             <div class="form-group">
-                <label for="locationId" class="col-sm-2 control-label">地点编号：</label>
-                <div class="col-sm-10">
+                <label for="locationId" class="col-sm-3 control-label">项目点编号：</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" name="locationId" placeholder="请输入地点编号..." maxlength="4" value="{{locationId}}">
                     <span class="col-sm help-block">项目编号请遵循【L010】这种格式,L开头加3位数字</span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="locationName" class="col-sm-2 control-label">地点名称：</label>
-                <div class="col-sm-10">
+                <label for="locationName" class="col-sm-3 control-label">项目点名称：</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" name="locationName" placeholder="请输入地点名称..." value="{{locationName}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="locationChargerName" class="col-sm-2 control-label">对方负责人：</label>
-                <div class="col-sm-10">
+                <label for="locationChargerName" class="col-sm-3 control-label">对方负责人：</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" name="locationChargerName" placeholder="请输入对方负责人姓名..." value="{{locationChargerName}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="locationChargerPhone" class="col-sm-2 control-label">联系方式：</label>
-                <div class="col-sm-10">
+                <label for="locationChargerPhone" class="col-sm-3 control-label">联系方式：</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" name="locationChargerPhone" placeholder="请输入最新版本号..." value="{{locationChargerPhone}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="staffId" class="col-sm-2 control-label">公司负责人：</label>
-                <div class="col-sm-10">
+                <label for="staffId" class="col-sm-3 control-label">公司负责人：</label>
+                <div class="col-sm-9">
                     <select class="form-control" name="staffId" id="staffId" >
                         {{#each staffList}}
                         <option value="{{staffId}}">{{staffName}}</option>
@@ -145,8 +146,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="projectId" class="col-sm-2 control-label">项目类型：</label>
-                <div class="col-sm-10">
+                <label for="projectId" class="col-sm-3 control-label">项目类型：</label>
+                <div class="col-sm-9">
                     <select class="form-control" name="projectId" id="projectId" >
                         {{#each projectList}}
                         <option value="{{projectId}}">{{projectName}}</option>
@@ -157,7 +158,7 @@
         </form>
     </div>
     <div class="modal-footer text-center">
-        <button type="button" id="saveProjectBtn" class="btn btn-primary">
+        <button type="button" id="saveLocationBtn" class="btn btn-primary">
             <em class="glyphicon glyphicon-floppy-disk"></em> 保存
         </button>
         <button type="button" class="btn btn-default"

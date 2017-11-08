@@ -46,7 +46,7 @@
                 <div class="col-xs-4">
                     <div class="input-group">
                         <span class="input-group-addon">厂商名称</span>
-                        <input type="text" class="form-control" id="factoryName" autocomplete="on">
+                        <input type="text" class="form-control" id="locationName" autocomplete="on">
                         </select>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                     <button class="btn btn-block btn-info" id="searchBtn">搜索</button>
                 </div>
                 <div class="col-xs-1">
-                    <button class="btn btn-block btn-success" id="addFactoryBtn">新增</button>
+                    <button class="btn btn-block btn-success" id="addLocationBtn">新增</button>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                             <h3 class="box-title">厂商列表</h3>
                         </div>
                         <div class="box-body">
-                            <table id="factory_list" class="table table-hover table-bordered table-striped table-responsive">
+                            <table id="location_list" class="table table-hover table-bordered table-striped table-responsive">
                                 <thead>
                                 <tr>
                                     <th>厂商编号</th>
@@ -91,7 +91,7 @@
 </div>
 
 <#--模态框模板-->
-<div class="modal fade" id="factory-modal" role="dialog" aria-labelledby="factory-modal" aria-hidden="true">
+<div class="modal fade" id="location-modal" role="dialog" aria-labelledby="location-modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         </div>
@@ -99,7 +99,7 @@
 </div>
 
 <#--模态框弹出内容模板-->
-<script id="factory-template" type="text/x-handlebars-template">
+<script id="location-template" type="text/x-handlebars-template">
     <div class="modal-header">
         <h4 class="modal-title">
             {{title}}
@@ -108,34 +108,35 @@
     <div class="modal-body">
         <form class="form-horizontal form" role="form">
             <div class="form-group">
-                <label for="factoryId" class="col-sm-2 control-label">厂商编号：</label>
+                <label for="locationId" class="col-sm-2 control-label">厂商编号：</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="factoryId" placeholder="请输入厂商编号..." maxlength="4" value="{{factoryId}}">
+                    <input type="text" class="form-control" name="locationId" placeholder="请输入厂商编号..." maxlength="4" value="{{locationId}}">
+                    <input type="hidden" class="form-control" name="locationType" maxlength="4" value="1">
                     <span class="col-sm help-block">厂商编号请遵循【F010】这种格式,F开头加3位数字</span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="factoryName" class="col-sm-2 control-label">厂商名称：</label>
+                <label for="locationName" class="col-sm-2 control-label">厂商名称：</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="factoryName" placeholder="请输入厂商名称..." value="{{factoryName}}">
+                    <input type="text" class="form-control" name="locationName" placeholder="请输入厂商名称..." value="{{locationName}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="factoryCharger" class="col-sm-2 control-label">负责人：</label>
+                <label for="locationChargerName" class="col-sm-2 control-label">负责人：</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="factoryCharger" placeholder="请输入负责人姓名..." value="{{factoryCharger}}">
+                    <input type="text" class="form-control" name="locationChargerName" placeholder="请输入负责人姓名..." value="{{locationChargerName}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="chargerPhone" class="col-sm-2 control-label">联系方式：</label>
+                <label for="locationChargerPhone" class="col-sm-2 control-label">联系方式：</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="chargerPhone" placeholder="请输入负责人联系方式..." value="{{chargerPhone}}">
+                    <input type="text" class="form-control" name="locationChargerPhone" placeholder="请输入负责人联系方式..." value="{{locationChargerPhone}}">
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer text-center">
-        <button type="button" id="saveFactoryBtn" class="btn btn-primary">
+        <button type="button" id="saveLocationBtn" class="btn btn-primary">
             <em class="glyphicon glyphicon-floppy-disk"></em> 保存
         </button>
         <button type="button" class="btn btn-default"

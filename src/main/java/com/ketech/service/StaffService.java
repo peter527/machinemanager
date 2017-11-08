@@ -2,7 +2,9 @@ package com.ketech.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ketech.mapper.ProjectMapper;
 import com.ketech.mapper.StaffMapper;
+import com.ketech.po.Project;
 import com.ketech.po.Staff;
 import com.ketech.tdo.MessageResultBean;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +30,8 @@ public class StaffService {
 
     @Resource
     private StaffMapper staffMapper;
+    @Resource
+    private ProjectMapper projectMapper;
 
     public static final int SUCCESS_CODE = 200;
     public static final int FAIL_CODE = 500;
@@ -70,11 +74,21 @@ public class StaffService {
         return maps;
     }
 
-    /**
-     * 根据参数搜索人员信息
-     * @param staff 人员实体类
-     * @return 返回查询结果集合
-     */
+    public Map<String, Object> listStaffAndProject(Staff staff, Project project) {
+        List<Staff> staffList = staffMapper.select(staff);
+        List<Project> projectList = projectMapper.select(project);
+        Map<String, Object> maps = new HashMap<String, Object>();
+        maps.put("code", SUCCESS_CODE);
+        maps.put("staffList", staffList);
+        maps.put("projectList", projectList);
+        return maps;
+    }
+
+        /**
+         * 根据参数搜索人员信息
+         * @param staff 人员实体类
+         * @return 返回查询结果集合
+         */
     private List<Staff> searchStaff(Staff staff){
         List<Staff> staffList = staffMapper.select(staff);
         return staffList;

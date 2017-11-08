@@ -1,6 +1,6 @@
 package com.ketech.vo;
 
-import com.ketech.po.Factory;
+import com.ketech.po.Location;
 import com.ketech.po.Machine;
 
 /**
@@ -14,13 +14,13 @@ import com.ketech.po.Machine;
 
 public class MachineFactoryBean extends Machine{
 
-    private Factory factory;
+    private Location location;
 
-    public Factory getFactory() {
-        return factory;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setFactory(Factory factory) {
-        this.factory = factory;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

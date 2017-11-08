@@ -1,5 +1,6 @@
 package com.ketech.controller;
 
+import com.ketech.po.Project;
 import com.ketech.po.Staff;
 import com.ketech.service.StaffService;
 import com.ketech.tdo.MessageResultBean;
@@ -46,6 +47,12 @@ public class StaffController {
     @ResponseBody
     public Map<String, Object> listAllStaff(Staff staff){
         return staffService.listAllStaff(staff);
+    }
+
+    @RequestMapping(value = "/listStaffAndProject")
+    @ResponseBody
+    public Map<String, Object> listStaffAndProject(Staff staff, Project project){
+        return staffService.listStaffAndProject(staff, project);
     }
 
     @RequestMapping(value = "/saveStaff")

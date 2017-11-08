@@ -95,7 +95,7 @@
             var data = projectTable.api().row($(this).parents('tr')).data();
             if (data.projectId) {
                 if ($(this).hasClass('edit')) {
-                    var context = {"title": "编辑厂商", "operationType": "1"};
+                    var context = {"title": "编辑项目", "operationType": "1"};
                     context = $.extend(context, data);
                     var staff = {};
                     staff["staffStatus"] = "0";
@@ -123,7 +123,7 @@
          * 新增按钮事件，弹出模态框
          */
         $('#addProjectBtn').on('click', function () {
-            var context = {"title": "新增厂商", "operationType": "0"};
+            var context = {"title": "新增项目", "operationType": "0"};
             var staff = {};
             staff["staffStatus"] = "0";
             $.post(base_url + "/staff/listAllStaff", staff, function (data, status) {
