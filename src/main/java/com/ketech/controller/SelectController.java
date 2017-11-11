@@ -32,4 +32,10 @@ public class SelectController {
         return selectService.listLocation(idList);
     }
 
+    @RequestMapping("/listLocationAndMachineAndStaff")
+    @ResponseBody
+    public Map<String, Object> listLocationAndMachineAndStaff(@RequestParam(required = false, value = "idList[]") List<String> idList){
+        return selectService.listLocationAndMachineAndStaff(idList);
+    }
+
 }

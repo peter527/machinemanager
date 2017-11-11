@@ -27,16 +27,49 @@
                     render: function (data, type, full, meta) {
                         return meta.settings._iDisplayStart + meta.row + 1;
                     },
-                    "class": 'bg-order-column',
-                    targets: 0
+                    "class": 'text-center',
+                    width: '40px'
                 }, {
-                    "data": 'staffId'
+                    render: function (data, type, full, meta) {
+                        if (full.operationType === "领用" || full.operationType === "归还"){
+                            return full.staffName;
+                        } else {
+                            return full.raiseName;
+                        }
+                    }
                 }, {
-                    "data": 'locationId'
+                    "data": 'acceptName'
                 }, {
-                    "data": 'machineId'
+                    "data": 'machineName'
                 }, {
-                    "data": 'operationType'
+                    "data": 'factoryName'
+                }, {
+                    "data": 'operationType',
+                    width: '80px',
+                    class: 'text-center',
+                    render: function (data) {
+                        var returnStr = "";
+                        switch (data){
+                            case "进货":
+                                returnStr = "<span class='label label-info'>进货</span>";
+                                break;
+                            case "退货":
+                                returnStr = "<span class='label label-warning'>退货</span>";
+                                break;
+                            case "分配":
+                                returnStr = "<span class='label label-success'>分配</span>";
+                                break;
+                            case "领用":
+                                returnStr = "<span class='label label-primary'>领用</span>";
+                                break;
+                            case "归还":
+                                returnStr = "<span class='label label-danger'>归还</span>";
+                                break;
+                            default :
+                                break;
+                        }
+                        return returnStr;
+                    }
                 }, {
                     "data": 'operationDate',
                     render: function (data, type, full, meta) {
@@ -50,8 +83,17 @@
                                 return '';
                         }
                     },
+                    width: '100px',
+                    class: 'text-center'
                 }, {
-                    "data": 'machineCount'
+                    "data": 'machineCount',
+                    "width": '80px',
+                    class: 'text-center',
+                    render: function (data) {
+                        return "<span class='label label-default' style='width: 50px; display: inline-block'>" + data +"</span>"
+                    }
+                }, {
+                    "data": 'operationMemo'
                 }
             ],
             "language": {
@@ -131,12 +173,11 @@
          */
         $('#receiveReturnBtn').on('click', function () {
             var context = {"title": "设备领用管理", "operationType": "0"};
-            var staff = {};
-            staff["staffStatus"] = "0";
-            staff["status"] = "0";
-            $.post(base_url + "/staff/listStaffAndProject", staff, function (data, status) {
+            var dataJson = {};
+            dataJson["idList"] = ["0","2"];
+            $.post(base_url + "/select/listLocationAndMachineAndStaff", dataJson, function (data, status) {
                 $('#machine-modal').modal('hide');
-                context = $.extend(context,{"staffList": data.staffList, "projectList": data.projectList});
+                context = $.extend(context,{"staffList": data.staffList, "machineList": data.machineList, "locationList": data.locationList});
                 showRevRetModal(context);
             }, "json");
         });
@@ -146,12 +187,11 @@
          */
         $('#assignBtn').on('click', function () {
             var context = {"title": "设备分配管理", "operationType": "0"};
-            var staff = {};
-            staff["staffStatus"] = "0";
-            staff["status"] = "0";
-            $.post(base_url + "/staff/listStaffAndProject", staff, function (data, status) {
+            var dataJson = {};
+            dataJson["idList"] = ["0","2"];
+            $.post(base_url + "/select/listLocationAndMachine", dataJson, function (data, status) {
                 $('#machine-modal').modal('hide');
-                context = $.extend(context,{"staffList": data.staffList, "projectList": data.projectList});
+                context = $.extend(context,{"locationList": data.locationList, "machineList": data.machineList});
                 showAssignModal(context);
             }, "json");
         });
@@ -185,6 +225,7 @@
                 autoclose: true,
                 todayHighlight: true
             });
+            $('#operationDate').val(moment(new Date()).format("YYYY/MM/DD"));
             var operationType = context.operationType;
             var staffId = context.staffId;
             var projectId = context.projectId;
@@ -203,43 +244,37 @@
                 errorClass: 'help-block',
                 focusInvalid: true,
                 rules: {
-                    locationId: {
-                        required: true
-                    },
-                    locationName: {
-                        required: true
-                    },
-                    locationChargerName: {
-                        required: true
-                    },
-                    locationChargerPhone: {
-                        required: true
-                    },
                     staffId: {
                         required: true
                     },
-                    projectId: {
+                    machineId: {
                         required: true
+                    },
+                    machineCount: {
+                        required: true
+                    },
+                    operationType: {
+                        required: true
+                    },
+                    operationDate: {
+                        /*required: true*/
                     }
                 },
                 messages: {
-                    locationId: {
-                        required: "项目点编号不能为空"
-                    },
-                    locationName: {
-                        required: "项目点名称不能为空"
-                    },
-                    locationChargerName: {
-                        required: "对方负责人不能为空"
-                    },
-                    locationChargerPhone: {
-                        required: "对方负责人联系方式不能为空"
-                    },
                     staffId: {
-                        required: "负责人不能为空"
+                        required: "发起方不能为空"
                     },
-                    projectId: {
-                        required: "项目名称不能为空"
+                    machineId: {
+                        required: "设备名称不能为空"
+                    },
+                    machineCount: {
+                        required: "设备数量不能为空"
+                    },
+                    operationType: {
+                        required: "操作类型不能为空"
+                    },
+                    operationDate: {
+                        required: "操作日期不能为空"
                     }
                 },
                 highlight: function (element) {
@@ -253,10 +288,10 @@
                     element.parent('div').append(error);
                 },
                 submitHandler: function (form) {
-                    var locationData = $("#machine-manager-modal .form").serializeJSON();
-                    $.post(base_url + "/operationLog/saveOperationLog", locationData, function (data, status) {
+                    var operationData = $("#machine-manager-modal .form").serializeJSON();
+                    $.post(base_url + "/operationLog/saveOperationLog", operationData, function (data, status) {
                         if (data.code === 200) {
-                            $('#location-modal').modal('hide');
+                            $('#machine-manager-modal').modal('hide');
                             layer.open({
                                 title: '系统提示',
                                 content: data.msg,
@@ -287,10 +322,17 @@
          * @param context 用于填充表单的信息
          */
         function showRevRetModal(context) {
-            var source = $("#inout-template").html();
+            var source = $("#recret-template").html();
             var template = Handlebars.compile(source);
             var html = template(context);
             $("#machine-manager-modal .modal-content").html(html);
+            $('.date').datepicker({
+                format: "yyyy/mm/dd",
+                language: "zh-CN",
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#operationDate').val(moment(new Date()).format("YYYY/MM/DD"));
             var operationType = context.operationType;
             var staffId = context.staffId;
             var projectId = context.projectId;
@@ -309,43 +351,37 @@
                 errorClass: 'help-block',
                 focusInvalid: true,
                 rules: {
-                    locationId: {
-                        required: true
-                    },
-                    locationName: {
-                        required: true
-                    },
-                    locationChargerName: {
-                        required: true
-                    },
-                    locationChargerPhone: {
-                        required: true
-                    },
                     staffId: {
                         required: true
                     },
-                    projectId: {
+                    machineId: {
                         required: true
+                    },
+                    machineCount: {
+                        required: true
+                    },
+                    operationType: {
+                        required: true
+                    },
+                    operationDate: {
+                        /*required: true*/
                     }
                 },
                 messages: {
-                    locationId: {
-                        required: "项目点编号不能为空"
-                    },
-                    locationName: {
-                        required: "项目点名称不能为空"
-                    },
-                    locationChargerName: {
-                        required: "对方负责人不能为空"
-                    },
-                    locationChargerPhone: {
-                        required: "对方负责人联系方式不能为空"
-                    },
                     staffId: {
-                        required: "负责人不能为空"
+                        required: "发起方不能为空"
                     },
-                    projectId: {
-                        required: "项目名称不能为空"
+                    machineId: {
+                        required: "设备名称不能为空"
+                    },
+                    machineCount: {
+                        required: "设备数量不能为空"
+                    },
+                    operationType: {
+                        required: "操作类型不能为空"
+                    },
+                    operationDate: {
+                        required: "操作日期不能为空"
                     }
                 },
                 highlight: function (element) {
@@ -359,13 +395,10 @@
                     element.parent('div').append(error);
                 },
                 submitHandler: function (form) {
-                    var locationData = $("#machine-manager-modal .form").serializeJSON();
-                    locationData["operationType"] = operationType;
-                    locationData["locationType"] = "2";
-                    console.log(locationData);
-                    $.post(base_url + "/location/saveLocation", locationData, function (data, status) {
+                    var operationData = $("#machine-manager-modal .form").serializeJSON();
+                    $.post(base_url + "/operationLog/saveOperationLog", operationData, function (data, status) {
                         if (data.code === 200) {
-                            $('#location-modal').modal('hide');
+                            $('#machine-manager-modal').modal('hide');
                             layer.open({
                                 title: '系统提示',
                                 content: data.msg,
@@ -386,8 +419,8 @@
             });
             $('#machine-manager-modal').data('bs.modal',null);
             $('#machine-manager-modal').modal({backdrop: 'static', keyboard: false}).modal('show');
-            $('#saveLocationBtn').on('click', function () {
-                $("machine-manager-modal .form").submit();
+            $('#saveOperationBtn').on('click', function () {
+                $("#machine-manager-modal .form").submit();
             });
         }
 
@@ -396,10 +429,17 @@
          * @param context 用于填充表单的信息
          */
         function showAssignModal(context) {
-            var source = $("#inout-template").html();
+            var source = $("#assign-template").html();
             var template = Handlebars.compile(source);
             var html = template(context);
             $("#machine-manager-modal .modal-content").html(html);
+            $('.date').datepicker({
+                format: "yyyy/mm/dd",
+                language: "zh-CN",
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#operationDate').val(moment(new Date()).format("YYYY/MM/DD"));
             var operationType = context.operationType;
             var staffId = context.staffId;
             var projectId = context.projectId;
@@ -418,43 +458,37 @@
                 errorClass: 'help-block',
                 focusInvalid: true,
                 rules: {
-                    locationId: {
-                        required: true
-                    },
-                    locationName: {
-                        required: true
-                    },
-                    locationChargerName: {
-                        required: true
-                    },
-                    locationChargerPhone: {
-                        required: true
-                    },
                     staffId: {
                         required: true
                     },
-                    projectId: {
+                    machineId: {
                         required: true
+                    },
+                    machineCount: {
+                        required: true
+                    },
+                    operationType: {
+                        required: true
+                    },
+                    operationDate: {
+                        /*required: true*/
                     }
                 },
                 messages: {
-                    locationId: {
-                        required: "项目点编号不能为空"
-                    },
-                    locationName: {
-                        required: "项目点名称不能为空"
-                    },
-                    locationChargerName: {
-                        required: "对方负责人不能为空"
-                    },
-                    locationChargerPhone: {
-                        required: "对方负责人联系方式不能为空"
-                    },
                     staffId: {
-                        required: "负责人不能为空"
+                        required: "发起方不能为空"
                     },
-                    projectId: {
-                        required: "项目名称不能为空"
+                    machineId: {
+                        required: "设备名称不能为空"
+                    },
+                    machineCount: {
+                        required: "设备数量不能为空"
+                    },
+                    operationType: {
+                        required: "操作类型不能为空"
+                    },
+                    operationDate: {
+                        required: "操作日期不能为空"
                     }
                 },
                 highlight: function (element) {
@@ -468,35 +502,40 @@
                     element.parent('div').append(error);
                 },
                 submitHandler: function (form) {
-                    var locationData = $("#machine-manager-modal .form").serializeJSON();
-                    locationData["operationType"] = operationType;
-                    locationData["locationType"] = "2";
-                    console.log(locationData);
-                    $.post(base_url + "/location/saveLocation", locationData, function (data, status) {
-                        if (data.code === 200) {
-                            $('#location-modal').modal('hide');
-                            layer.open({
-                                title: '系统提示',
-                                content: data.msg,
-                                icon: '1',
-                                end: function (layero, index) {
-                                    operationLogTable.fnDraw();
-                                }
-                            });
-                        } else {
-                            layer.open({
-                                title: '系统提示',
-                                content: (data.msg || "新增失败"),
-                                icon: '2'
-                            });
-                        }
-                    }, "json");
+                    var operationData = $("#machine-manager-modal .form").serializeJSON();
+                    if (operationData["staffId"] !== operationData["locationId"]){
+                        $.post(base_url + "/operationLog/saveOperationLog", operationData, function (data, status) {
+                            if (data.code === 200) {
+                                $('#machine-manager-modal').modal('hide');
+                                layer.open({
+                                    title: '系统提示',
+                                    content: data.msg,
+                                    icon: '1',
+                                    end: function (layero, index) {
+                                        operationLogTable.fnDraw();
+                                    }
+                                });
+                            } else {
+                                layer.open({
+                                    title: '系统提示',
+                                    content: (data.msg || "新增失败"),
+                                    icon: '2'
+                                });
+                            }
+                        }, "json");
+                    } else {
+                        layer.open({
+                            title: '系统提示',
+                            content: ("调配双方不能为同一对象"),
+                            icon: '2'
+                        });
+                    }
                 }
             });
             $('#machine-manager-modal').data('bs.modal',null);
             $('#machine-manager-modal').modal({backdrop: 'static', keyboard: false}).modal('show');
-            $('#saveLocationBtn').on('click', function () {
-                $("machine-manager-modal .form").submit();
+            $('#saveOperationBtn').on('click', function () {
+                $("#machine-manager-modal .form").submit();
             });
         }
     });

@@ -9,10 +9,11 @@
     <result column="staff_id" jdbcType="VARCHAR" property="staffId" />
     <result column="location_id" jdbcType="VARCHAR" property="locationId" />
     <result column="machine_id" jdbcType="VARCHAR" property="machineId" />
+    <result column="factory_id" jdbcType="VARCHAR" property="factoryId" />
     <result column="machine_count" jdbcType="INTEGER" property="machineCount" />
     <result column="operation_type" jdbcType="VARCHAR" property="operationType" />
     <result column="operation_date" jdbcType="DATE" property="operationDate" />
-    <result column="operatiion_memo" jdbcType="VARCHAR" property="operatiionMemo" />
+    <result column="operation_memo" jdbcType="VARCHAR" property="operationMemo" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
 </mapper>

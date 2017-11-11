@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ketech.mapper.OperationLogInfoMapper">
+    <select id="selectOperationLogInfo" parameterType="com.ketech.po.OperationLog" resultType="com.ketech.vo.OperationLogBean">
+        SELECT
+            o.staff_id raiseId,
+            o.location_id acceptId,
+            o.machine_id machineId,
+            o.machine_count machineCount,
+            o.operation_type operationType,
+            o.operation_date operationDate,
+            o.operation_memo operationMemo,
+            s.staff_name staffName,
+            l.location_name raiseName,
+            l2.location_name acceptName,
+            m.machine_name machineName,
+            l3.location_name factoryName
+        FROM
+            operation_log o
+        LEFT JOIN staff s ON s.staff_id = o.staff_id
+        LEFT JOIN location l ON l.location_id = o.staff_id
+        LEFT JOIN location l2 ON l2.location_id = o.location_id
+        LEFT JOIN location l3 ON l3.location_id = o.factory_id
+        LEFT JOIN machine m ON m.machine_id = o.machine_id
+        ORDER BY o.operation_date DESC
+    </select>
+</mapper>

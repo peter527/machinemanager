@@ -79,12 +79,14 @@
                                 <thead>
                                 <tr>
                                     <th>序号</th>
-                                    <th>领用人</th>
-                                    <th>发起方/设备出处</th>
-                                    <th>设备名称</th>
+                                    <th>发起方/领用人</th>
+                                    <th>接收方</th>
+                                    <th>设备型号</th>
+                                    <th>设备厂商</th>
                                     <th>操作类型</th>
                                     <th>操作时间</th>
                                     <th>设备数量</th>
+                                    <th>设备备注</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -119,9 +121,9 @@
     <div class="modal-body">
         <form class="form-horizontal form" role="form">
             <div class="form-group">
-                <label for="locationId" class="col-sm-2 control-label">发起方：</label>
+                <label for="staffId" class="col-sm-2 control-label">发起方：</label>
                 <div class="col-sm-10">
-                    <select class="form-control" name="locationId" id="locationId" >
+                    <select class="form-control" name="staffId" id="staffId" >
                         {{#each locationList}}
                         <option value="{{locationId}}">{{locationName}}</option>
                         {{/each}}
@@ -129,7 +131,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="machineId" class="col-sm-2 control-label">设备名称：</label>
+                <label for="machineId" class="col-sm-2 control-label">设备型号：</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="machineId" id="machineId" >
                         {{#each machineList}}
@@ -190,7 +192,17 @@
     <div class="modal-body">
         <form class="form-horizontal form" role="form">
             <div class="form-group">
-                <label for="locationId" class="col-sm-2 control-label">发起方：</label>
+                <label for="staffId" class="col-sm-2 control-label">领用人：</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="staffId" id="staffId" >
+                        {{#each staffList}}
+                        <option value="{{staffId}}">{{staffName}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="locationId" class="col-sm-2 control-label">接收方：</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="locationId" id="locationId" >
                         {{#each locationList}}
@@ -200,11 +212,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="machineId" class="col-sm-2 control-label">设备名称：</label>
+                <label for="machineId" class="col-sm-2 control-label">设备型号：</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="machineId" id="machineId" >
                         {{#each machineList}}
-                        <option value="{{machineId}}">{{mechineName}}</option>
+                        <option value="{{machineId}}">{{machineName}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -218,16 +230,19 @@
             <div class="form-group">
                 <label for="operationType" class="col-sm-2 control-label">操作类型：</label>
                 <div class="col-sm-10">
-                    <select class="form-control" name="staffId" id="staffId" >
-                        <option value="进货">进货</option>
-                        <option value="退货">退货</option>
+                    <select class="form-control" name="operationType" id="operationType" >
+                        <option value="领用">领用</option>
+                        <option value="归还">归还</option>
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group date">
                 <label for="operationTime" class="col-sm-2 control-label">操作时间：</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="operationTime" placeholder="请输入操作时间..." value="{{operationTime}}">
+                <div class="input-group col-sm-10" style="padding: 0 15px">
+                    <input type="text" class="form-control"  name="operationDate" id="operationDate">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -258,7 +273,17 @@
     <div class="modal-body">
         <form class="form-horizontal form" role="form">
             <div class="form-group">
-                <label for="locationId" class="col-sm-2 control-label">发起方：</label>
+                <label for="staffId" class="col-sm-2 control-label">发起方：</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="staffId" id="staffId" >
+                        {{#each locationList}}
+                        <option value="{{locationId}}">{{locationName}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="locationId" class="col-sm-2 control-label">接收方：</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="locationId" id="locationId" >
                         {{#each locationList}}
@@ -268,7 +293,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="machineId" class="col-sm-2 control-label">设备名称：</label>
+                <label for="machineId" class="col-sm-2 control-label">设备型号：</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="machineId" id="machineId" >
                         {{#each machineList}}
@@ -286,16 +311,15 @@
             <div class="form-group">
                 <label for="operationType" class="col-sm-2 control-label">操作类型：</label>
                 <div class="col-sm-10">
-                    <select class="form-control" name="staffId" id="staffId" >
-                        <option value="进货">进货</option>
-                        <option value="退货">退货</option>
+                    <select class="form-control" name="operationType" id="operationType" >
+                        <option value="分配">分配</option>
                     </select>
                 </div>
             </div>
             <div class="form-group date">
                 <label for="operationTime" class="col-sm-2 control-label">操作时间：</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" value="12-02-2012">
+                <div class="input-group col-sm-10" style="padding: 0 15px">
+                    <input type="text" class="form-control"  name="operationDate" id="operationDate">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>

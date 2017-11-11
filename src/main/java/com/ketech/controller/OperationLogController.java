@@ -31,12 +31,12 @@ public class OperationLogController {
     @ResponseBody
     public Map<String, Object> listOperationLog(@RequestParam(required = false, defaultValue = "0") int start,
                                          @RequestParam(required = false, defaultValue = "10") int length, OperationLog operationLog) {
-        return operationLogService.listOperationLog(start, length, operationLog);
+        return operationLogService.listOperationLogInfo(start, length, operationLog);
     }
 
     @RequestMapping(value = "/saveOperationLog")
     @ResponseBody
-    public MessageResultBean saveOpeartionLog(OperationLog operationLog, String saveType) {
+    public MessageResultBean saveOperationLog(OperationLog operationLog, String saveType) {
         return operationLogService.saveOpeartionLog(operationLog, saveType);
     }
 

@@ -50,9 +50,14 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table tableName="operation_log">
+        <table tableName="staff_machine">
             <property name="useActualColumnNames" value="false"/>
 <!--            <generatedKey column="id" sqlStatement="MySql"/>-->
+        </table>
+
+        <table tableName="location_machine">
+            <property name="useActualColumnNames" value="false"/>
+            <!--            <generatedKey column="id" sqlStatement="MySql"/>-->
         </table>
 
     </context>

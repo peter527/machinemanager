@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ketech.mapper.MachineStatisticMapper">
+    <resultMap id="StaffMachineResultMap" extends="com.ketech.mapper.StaffMachineMapper.BaseResultMap" type="com.ketech.vo.StaffMachineBean">
+        <association property="staff" javaType="com.ketech.po.Staff" resultMap="com.ketech.mapper.StaffMapper.BaseResultMap" />
+        <association property="machine" javaType="com.ketech.po.Machine" resultMap="com.ketech.mapper.MachineMapper.BaseResultMap" />
+    </resultMap>
+
+    <resultMap id="LocationMachineResultMap" extends="com.ketech.mapper.LocationMachineMapper.BaseResultMap" type="com.ketech.vo.LocationMachineBean">
+        <association property="location" javaType="com.ketech.po.Location" resultMap="com.ketech.mapper.LocationMapper.BaseResultMap" />
+        <association property="machine" javaType="com.ketech.po.Machine" resultMap="com.ketech.mapper.MachineMapper.BaseResultMap" />
+    </resultMap>
+
+    <select id="selectStaffMachineByStaff" resultMap="StaffMachineResultMap">
+        SELECT
+            sm.staff_id,
+            sm.machine_id,
+            sm.machine_count,
+            s.staff_name,
+            m.machine_name
+        FROM
+            staff_machine sm
+        LEFT JOIN staff s ON sm.staff_id = s.staff_id
+        LEFT JOIN machine m on sm.machine_id = m.machine_id
+    </select>
+
+    <select id="selectLocationMachineByStaff" resultMap="LocationMachineResultMap">
+        SELECT
+            lm.location_id,
+            lm.machine_id,
+            lm.machine_count,
+            l.location_name,
+            m.machine_name
+        FROM
+          location_machine lm
+        LEFT JOIN location l ON lm.location_id = l.location_id
+        LEFT JOIN machine m on lm.machine_id = m.machine_id
+    </select>
+
+</mapper>

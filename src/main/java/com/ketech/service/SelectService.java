@@ -5,6 +5,7 @@ import com.ketech.mapper.MachineMapper;
 import com.ketech.mapper.StaffMapper;
 import com.ketech.po.Location;
 import com.ketech.po.Machine;
+import com.ketech.po.Staff;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -50,4 +51,27 @@ public class SelectService {
         maps.put("machineList", machineList);
         return maps;
     }
+
+    public Map<String,Object> listLocationAndMachineAndStaff(List<String> idList) {
+        Map<String, Object> maps = new HashMap<String, Object>();
+        Machine machine = new Machine();
+        List<Machine> machineList = machineMapper.select(machine);
+        Staff staff = new Staff();
+        List<Staff> staffList = staffMapper.select(staff);
+        if (null == idList || idList.size() == 0 ){
+            Location location = new Location();
+            List<Location> locationList = locationMapper.select(location);
+            maps.put("locationList", locationList);
+        } else {
+            Example example = new Example(Location.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andIn("locationType", idList);
+            List<Location> locationList = locationMapper.selectByExample(example);
+            maps.put("locationList", locationList);
+        }
+        maps.put("machineList", machineList);
+        maps.put("staffList", staffList);
+        return maps;
+    }
+
 }

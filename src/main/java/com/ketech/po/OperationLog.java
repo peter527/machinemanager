@@ -1,8 +1,9 @@
 package com.ketech.po;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "operation_log")
 public class OperationLog implements Serializable {
@@ -18,6 +19,9 @@ public class OperationLog implements Serializable {
     @Column(name = "machine_id")
     private String machineId;
 
+    @Column(name = "factory_id")
+    private String factoryId;
+
     @Column(name = "machine_count")
     private Integer machineCount;
 
@@ -27,8 +31,8 @@ public class OperationLog implements Serializable {
     @Column(name = "operation_date")
     private Date operationDate;
 
-    @Column(name = "operatiion_memo")
-    private String operatiionMemo;
+    @Column(name = "operation_memo")
+    private String operationMemo;
 
     @Column(name = "create_date")
     private Date createDate;
@@ -92,6 +96,20 @@ public class OperationLog implements Serializable {
     }
 
     /**
+     * @return factory_id
+     */
+    public String getFactoryId() {
+        return factoryId;
+    }
+
+    /**
+     * @param factoryId
+     */
+    public void setFactoryId(String factoryId) {
+        this.factoryId = factoryId == null ? null : factoryId.trim();
+    }
+
+    /**
      * @return machine_count
      */
     public Integer getMachineCount() {
@@ -134,17 +152,17 @@ public class OperationLog implements Serializable {
     }
 
     /**
-     * @return operatiion_memo
+     * @return operation_memo
      */
-    public String getOperatiionMemo() {
-        return operatiionMemo;
+    public String getOperationMemo() {
+        return operationMemo;
     }
 
     /**
-     * @param operatiionMemo
+     * @param operationMemo
      */
-    public void setOperatiionMemo(String operatiionMemo) {
-        this.operatiionMemo = operatiionMemo == null ? null : operatiionMemo.trim();
+    public void setOperationMemo(String operationMemo) {
+        this.operationMemo = operationMemo == null ? null : operationMemo.trim();
     }
 
     /**
